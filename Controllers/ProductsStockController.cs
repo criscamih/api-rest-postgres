@@ -35,6 +35,7 @@ namespace api_stock.Controllers
         {
             if(ModelState.IsValid){
                 inventario.codigo_serial = GetSerialNumber(10);
+                inventario.fecha = DateTime.Now;
                 _dataAccessProvider.AddInventarioRecord(inventario);
                 return Ok();
             }
@@ -44,6 +45,7 @@ namespace api_stock.Controllers
         [HttpPut]
         public IActionResult Edit([FromBody] InventarioModel inventario){
             if(ModelState.IsValid){
+                inventario.fecha = DateTime.Now;
                 _dataAccessProvider.UpdateInventario(inventario);
                 return Ok();
             }

@@ -42,6 +42,7 @@ namespace api_stock.Providers{
                    on inv.id_area equals ar.id_area
                    select new InventarioDetalleModel
                    {
+                       id_inventario = inv.id_inventario,
                        nombre = prop.nombre,
                        descripcion = prop.descripcion,
                        tipo = prop.id_tipo_producto == 1 ? Enum.GetName(typeof(TipoProducto), TipoProducto.tecnologico) : prop.id_tipo_producto == 2 ? Enum.GetName(typeof(TipoProducto), TipoProducto.miscelaneo) : Enum.GetName(typeof(TipoProducto), TipoProducto.inmueble),
@@ -66,6 +67,7 @@ namespace api_stock.Providers{
                     where inv.id_inventario == id
                     select new InventarioDetalleModel
                     {
+                        id_inventario = inv.id_inventario,
                         nombre = prop.nombre,
                         descripcion = prop.descripcion,
                         tipo = prop.id_tipo_producto == 1 ? Enum.GetName(typeof(TipoProducto), TipoProducto.tecnologico) : prop.id_tipo_producto == 2 ? Enum.GetName(typeof(TipoProducto), TipoProducto.miscelaneo) : Enum.GetName(typeof(TipoProducto), TipoProducto.inmueble),

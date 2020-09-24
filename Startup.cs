@@ -33,6 +33,10 @@ namespace api_stock
             services.AddControllers();
             services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
             services.AddScoped<IDataAccessProvider, DataAccessProvider>();
+            services.AddScoped<IDataAccessArea, DataAccessArea>();
+            services.AddScoped<IDataAccessEmpleado, DataAccessEmpleado>();
+            services.AddScoped<IDataAccessEstado, DataAccessEstado>();
+            services.AddScoped<IDataAccessProducto, DataAccessProducto>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
