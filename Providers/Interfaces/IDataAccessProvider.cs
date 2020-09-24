@@ -10,6 +10,7 @@ namespace api_stock.Providers.Interfaces{
         void UpdateInventario(InventarioModel inventario);
 
         void DeleteInventario(int id);
+        InventarioModel GetInventarioById(int id);
 
     }
 }

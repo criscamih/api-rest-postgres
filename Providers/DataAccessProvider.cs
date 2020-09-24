@@ -53,6 +53,23 @@ namespace api_stock.Providers{
                    };
         }
 
+        public InventarioModel GetInventarioById(int id)
+        {
+            return (from inv in _context.tbl_inventario
+                    where inv.id_inventario == id
+                    select new InventarioModel{
+                        id_inventario = inv.id_inventario,
+                        codigo_serial = inv.codigo_serial,
+                        fecha = inv.fecha,
+                        observaciones = inv.observaciones,
+                        id_producto = inv.id_producto,
+                        id_area = inv.id_area,
+                        id_empleado = inv.id_empleado,
+                        id_estado = inv.id_estado
+                    }
+                    ).FirstOrDefault();
+        }
+
         public InventarioDetalleModel GetProductById(int id)
         {
             return (from inv in _context.tbl_inventario
