@@ -5,22 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using  api_stock.Models;
-using api_stock.Providers.Interfaces;
 using System.Text;
-
+using api_stock.common.interfaces;
 namespace api_stock.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class ProductoController : ControllerBase{
-        private readonly IDataAccessProducto _dataAccessProducto;
-         public ProductoController(IDataAccessProducto dataAccessProducto)
+        private readonly IDataAccessRepository<ProductoModel> _dataAccessProducto;
+         public ProductoController(IDataAccessRepository<ProductoModel>  dataAccessProducto)
          {
              _dataAccessProducto = dataAccessProducto;
          }
         [HttpGet]
-        public IEnumerable<ProductoModel> GetAllProductos(){
-            return _dataAccessProducto.GetAllProductos();
-        }
+        public async Task<IEnumerable<ProductoModel>> GetAllProductos() => await _dataAccessProducto.GetAll();
+        
     }
 }

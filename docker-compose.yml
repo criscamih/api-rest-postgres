@@ -1,0 +1,37 @@
+version: '3.4'
+
+networks: 
+    api-stock-net:
+        driver: bridge
+
+services: 
+    api-stock:
+        image: api-stock:latest
+        depends_on: 
+            - "postgres_image"
+        build:
+            context: .
+            dockerfile: dockerfile
+        ports: 
+            - "3000:80"
+        environment: 
+            DB_CONNECTION_STRING: "host=postgres_image;Port=5432;database=inventario;username=admin;password=123;"
+        networks: 
+            - api-stock-net
+
+    postgres_image:
+        image: postgres:12
+        ports: 
+            - "5432"
+        restart: always
+        volumes: 
+            - db_volume:/var/lib/postgresql/data
+            - ./dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+        environment: 
+            POSTGRES_USER: "admin"
+            POSTGRES_PASSWORD: "123"
+            POSTGRES_DB: "inventario"
+        networks: 
+            - api-stock-net
+volumes: 
+    db_volume:

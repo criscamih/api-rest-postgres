@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using  api_stock.Models;
-using api_stock.Providers.Interfaces;
 using System.Text;
+using api_stock.common.interfaces;
 
 namespace api_stock.Controllers
 {
@@ -14,14 +14,12 @@ namespace api_stock.Controllers
     [Route("api/[controller]")]
     public class EmpleadoController : ControllerBase{
 
-        private readonly IDataAccessEmpleado _dataAccessEmpleado;
-         public EmpleadoController(IDataAccessEmpleado dataAccessEmpleado)
+        private readonly IDataAccessRepository<EmpleadoModel> _dataAccessEmpleado;
+         public EmpleadoController(IDataAccessRepository<EmpleadoModel> dataAccessEmpleado)
          {
              _dataAccessEmpleado = dataAccessEmpleado;
          }
         [HttpGet]
-        public IEnumerable<EmpleadoModel> GetAllEmpleados(){
-            return _dataAccessEmpleado.GetAllEmpleados();
-        }
+        public async Task<IEnumerable<EmpleadoModel>> GetAllEmpleados() => await _dataAccessEmpleado.GetAll();
     }
 }

@@ -5,22 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using  api_stock.Models;
-using api_stock.Providers.Interfaces;
 using System.Text;
+using api_stock.common.interfaces;
 
 namespace api_stock.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class EstadoController : ControllerBase{
-        private readonly IDataAccessEstado _dataAccessEstado;
-         public EstadoController(IDataAccessEstado dataAccessEstado)
+        private readonly IDataAccessRepository<EstadoModel> _dataAccessEstado;
+         public EstadoController(IDataAccessRepository<EstadoModel>  dataAccessEstado)
          {
              _dataAccessEstado = dataAccessEstado;
          }
         [HttpGet]
-        public IEnumerable<EstadoModel> GetAllEstados(){
-            return _dataAccessEstado.GetAllEstados();
-        }
+        public async Task<IEnumerable<EstadoModel>> GetAllEstados() => await _dataAccessEstado.GetAll();
+        
     }
 }

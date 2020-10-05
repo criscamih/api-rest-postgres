@@ -14,6 +14,8 @@ using api_stock.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using api_stock.Providers;
 using api_stock.Providers.Interfaces;
+using api_stock.common.interfaces;
+using api_stock.Models;
 
 namespace api_stock
 {
@@ -29,14 +31,17 @@ namespace api_stock
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            // services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
             services.AddCors();
             services.AddControllers();
-            services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
-            services.AddScoped<IDataAccessProvider, DataAccessProvider>();
-            services.AddScoped<IDataAccessArea, DataAccessArea>();
-            services.AddScoped<IDataAccessEmpleado, DataAccessEmpleado>();
-            services.AddScoped<IDataAccessEstado, DataAccessEstado>();
-            services.AddScoped<IDataAccessProducto, DataAccessProducto>();
+            services.AddScoped<IDetalleInventario, DetalleInventario>();
+            services.AddScoped<IDataAccessRepository<InventarioModel>,DataAccessInventario>();
+            services.AddScoped<IDataAccessRepository<AreaModel>,DataAccessArea>();
+            services.AddScoped<IDataAccessRepository<EmpleadoModel>,DataAccessEmpleado>();
+            services.AddScoped<IDataAccessRepository<EstadoModel>,DataAccessEstado>();
+            services.AddScoped<IDataAccessRepository<ProductoModel>,DataAccessProducto>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
