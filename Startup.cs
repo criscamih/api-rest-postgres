@@ -42,6 +42,8 @@ namespace api_stock
             services.AddScoped<IDataAccessRepository<EmpleadoModel>,DataAccessEmpleado>();
             services.AddScoped<IDataAccessRepository<EstadoModel>,DataAccessEstado>();
             services.AddScoped<IDataAccessRepository<ProductoModel>,DataAccessProducto>();
+            services.AddScoped<IDataAccessRepository<ProveedorModel>,DataAccessProveedor>();
+            services.AddScoped<IDataAccessRepository<TipoProductoModel>,DataAccessTP>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,12 +1,20 @@
 \connect inventario
 
-CREATE TABLE IF NOT EXISTS tbl_empleado (id_empleado serial NOT NULL, nombre character varying(20) NOT NULL, DNI character varying(10),id_area integer NULL, CONSTRAINT empleado_pk PRIMARY KEY(id_empleado));
-CREATE TABLE IF NOT EXISTS tbl_area (id_area serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200), CONSTRAINT area_pk PRIMARY KEY (id_area));
-CREATE TABLE IF NOT EXISTS tbl_producto (id_producto serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200),valor decimal(18,2),id_proveedor integer NOT NULL,id_tipo_producto integer NOT NULL, CONSTRAINT producto_pk PRIMARY KEY(id_producto));
-CREATE TABLE IF NOT EXISTS tbl_estado (id_estado serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200),CONSTRAINT estado_pk PRIMARY KEY (id_estado));
-CREATE TABLE IF NOT EXISTS tbl_tipo_producto (id_tipo_producto serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200),CONSTRAINT tipo_producto_pk PRIMARY KEY (id_tipo_producto));
-CREATE TABLE IF NOT EXISTS tbl_proveedor (id_proveedor serial NOT NULL, nombre character varying(20) NOT NULL, nit character varying(20) NOT NULL, telefono character varying(20) NULL, correo character varying(50) NULL,CONSTRAINT proveedor_pk PRIMARY KEY (id_proveedor));
-CREATE TABLE IF NOT EXISTS tbl_inventario (id_inventario serial NOT NULL, codigo_serial character varying(20) NOT NULL, fecha date, observaciones character varying(500),id_producto integer NOT NULL, id_empleado integer NULL, id_area integer NULL, id_estado integer NOT NULL,CONSTRAINT inventario_pk PRIMARY KEY (id_inventario));
+DROP TABLE IF EXISTS tbl_empleado
+DROP TABLE IF EXISTS tbl_area
+DROP TABLE IF EXISTS tbl_producto
+DROP TABLE IF EXISTS tbl_estado
+DROP TABLE IF EXISTS tbl_tipo_producto
+DROP TABLE IF EXISTS tbl_proveedor
+DROP TABLE IF EXISTS tbl_inventario
+
+CREATE TABLE tbl_empleado (id_empleado serial NOT NULL, nombre character varying(20) NOT NULL, DNI character varying(10),id_area integer NULL, CONSTRAINT empleado_pk PRIMARY KEY(id_empleado));
+CREATE TABLE tbl_area (id_area serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200), CONSTRAINT area_pk PRIMARY KEY (id_area));
+CREATE TABLE tbl_producto (id_producto serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200),valor decimal(18,2),id_proveedor integer NOT NULL,id_tipo_producto integer NOT NULL, CONSTRAINT producto_pk PRIMARY KEY(id_producto));
+CREATE TABLE tbl_estado (id_estado serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200),CONSTRAINT estado_pk PRIMARY KEY (id_estado));
+CREATE TABLE tbl_tipo_producto (id_tipo_producto serial NOT NULL, nombre character varying(20) NOT NULL, descripcion character varying(200),CONSTRAINT tipo_producto_pk PRIMARY KEY (id_tipo_producto));
+CREATE TABLE tbl_proveedor (id_proveedor serial NOT NULL, nombre character varying(20) NOT NULL, nit character varying(20) NOT NULL, telefono character varying(20) NULL, correo character varying(50) NULL,CONSTRAINT proveedor_pk PRIMARY KEY (id_proveedor));
+CREATE TABLE tbl_inventario (id_inventario serial NOT NULL, codigo_serial character varying(20) NOT NULL, fecha date, observaciones character varying(500),id_producto integer NOT NULL, id_empleado integer NULL, id_area integer NULL, id_estado integer NOT NULL,CONSTRAINT inventario_pk PRIMARY KEY (id_inventario));
 
 ALTER TABLE public.tbl_area    
   OWNER TO admin; 

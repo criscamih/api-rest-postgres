@@ -2,31 +2,25 @@ using api_stock.Models;
 using System.Collections.Generic;
 using System.Linq;
 using api_stock.DataAccess;
-using api_stock.enums;
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using api_stock.common.interfaces;
 
 namespace api_stock.Providers{
-    public class DataAccessProducto : IDataAccessRepository<ProductoModel>
+    public class DataAccessProveedor : IDataAccessRepository<ProveedorModel>
     {
         private readonly DataAccessContext _context;
-        public DataAccessProducto(DataAccessContext context)
+        public DataAccessProveedor(DataAccessContext context)
         {
             _context = context;
         }
-        public override async Task<IEnumerable<ProductoModel>> GetAll() =>
-            await (
-                from productos in _context.tbl_producto
-                select productos
-            ).ToListAsync();
 
-        public override async Task Add(ProductoModel producto)
+        public override async Task Add(ProveedorModel proveedor)
         {
             try
             {
-                _context.tbl_producto.Add(producto);
+                _context.tbl_proveedor.Add(proveedor);
                 await _context.SaveChangesAsync();
             }
             catch (Exception)
@@ -40,8 +34,8 @@ namespace api_stock.Providers{
         {
             try
             {
-                var producto = _context.tbl_producto.FirstOrDefault(p => p.id_producto == id);
-                _context.tbl_producto.Remove(producto);
+                var proveedor = _context.tbl_proveedor.FirstOrDefault(p => p.id_proveedor == id);
+                _context.tbl_proveedor.Remove(proveedor);
                 await _context.SaveChangesAsync();
             }
             catch (System.Exception)
@@ -51,22 +45,25 @@ namespace api_stock.Providers{
             }
         }
 
+        public override async Task<IEnumerable<ProveedorModel>> GetAll() =>
+                await (from proveedores in _context.tbl_proveedor
+                       select proveedores
+                ).ToListAsync();
 
-        public override async Task<ProductoModel> GetOne(int id) => 
-            await (from producto in _context.tbl_producto
-                    where producto.id_producto == id
-                    select producto).FirstOrDefaultAsync();
+        public override async Task<ProveedorModel> GetOne(int id) =>
+                await (from proveedor in _context.tbl_proveedor
+                        where proveedor.id_proveedor == id 
+                        select proveedor).FirstOrDefaultAsync();
 
-        public override async Task Update(ProductoModel producto)
+        public override async Task Update(ProveedorModel proveedor)
         {
             try
             {
-                _context.tbl_producto.Update(producto);
+                _context.tbl_proveedor.Update(proveedor);
                 await _context.SaveChangesAsync();
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }

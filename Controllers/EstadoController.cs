@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using  api_stock.Models;
 using System.Text;
 using api_stock.common.interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace api_stock.Controllers
 {
@@ -18,8 +19,22 @@ namespace api_stock.Controllers
          {
              _dataAccessEstado = dataAccessEstado;
          }
+
+
         [HttpGet]
-        public async Task<IEnumerable<EstadoModel>> GetAllEstados() => await _dataAccessEstado.GetAll();
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<EstadoModel>>> GetAllEstados()
+        {
+            var estados = await _dataAccessEstado.GetAll() ?? null;
+
+            if (estados is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(estados);
+        }
         
     }
 }

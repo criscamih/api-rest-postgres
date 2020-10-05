@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using  api_stock.Models;
 using System.Text;
 using api_stock.common.interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace api_stock.Controllers
 {
@@ -19,6 +20,18 @@ namespace api_stock.Controllers
              _dataAccessArea = dataAccessArea;
          }
         [HttpGet]
-        public async Task<IEnumerable<AreaModel>> GetAllAreas() => await _dataAccessArea.GetAll();
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<AreaModel>>> GetAllAreas()
+        {
+            var areas = await _dataAccessArea.GetAll() ?? null;
+
+            if (areas is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(areas);
+        }
     }
 }
