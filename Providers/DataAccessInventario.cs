@@ -59,7 +59,7 @@ namespace api_stock.Providers{
         {
             try
             {
-                _context.tbl_inventario.Update(inventario);
+                _context.Entry(inventario).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (System.Exception)

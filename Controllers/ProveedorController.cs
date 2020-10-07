@@ -70,14 +70,14 @@ namespace api_stock.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit([FromBody] ProveedorModel proveedor)
+        public async Task<IActionResult> Edit(int id, ProveedorModel proveedor)
         {
-            if (!ModelState.IsValid)
+            if (id != proveedor.id_proveedor)
             {
-                return BadRequest("El objeto que se envía como parámetro no es válido");
+                return BadRequest("El objeto no es válido");
             }
             try
             {

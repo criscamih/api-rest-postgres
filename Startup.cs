@@ -16,6 +16,7 @@ using api_stock.Providers;
 using api_stock.Providers.Interfaces;
 using api_stock.common.interfaces;
 using api_stock.Models;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 namespace api_stock
 {
@@ -31,9 +32,11 @@ namespace api_stock
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
-            // services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(connectionString));
-            services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
+            //---para publicar en docker------
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(connectionString));
+            //---para depuración en local---
+            //services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
             services.AddCors();
             services.AddControllers();
             services.AddScoped<IDetalleInventario, DetalleInventario>();
@@ -44,6 +47,9 @@ namespace api_stock
             services.AddScoped<IDataAccessRepository<ProductoModel>,DataAccessProducto>();
             services.AddScoped<IDataAccessRepository<ProveedorModel>,DataAccessProveedor>();
             services.AddScoped<IDataAccessRepository<TipoProductoModel>,DataAccessTP>();
+
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
+            .AddCertificate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
