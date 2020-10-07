@@ -17,6 +17,7 @@ using api_stock.Providers.Interfaces;
 using api_stock.common.interfaces;
 using api_stock.Models;
 using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.OpenApi.Models;
 
 namespace api_stock
 {
@@ -36,7 +37,7 @@ namespace api_stock
             var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(connectionString));
             //---para depuración en local---
-            //services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
+            // services.AddDbContext<DataAccessContext>(options => options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString")));
             services.AddCors();
             services.AddControllers();
             services.AddScoped<IDetalleInventario, DetalleInventario>();
@@ -47,6 +48,10 @@ namespace api_stock
             services.AddScoped<IDataAccessRepository<ProductoModel>,DataAccessProducto>();
             services.AddScoped<IDataAccessRepository<ProveedorModel>,DataAccessProveedor>();
             services.AddScoped<IDataAccessRepository<TipoProductoModel>,DataAccessTP>();
+
+            services.AddSwaggerGen( c => {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Agencia API-Rest", Version="v1"});
+            });
 
             services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
             .AddCertificate();
@@ -61,7 +66,10 @@ namespace api_stock
             }
 
             app.UseHttpsRedirection();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>{
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Values API V1");
+            });
             app.UseCors(builder => {
                builder
                .AllowAnyOrigin()
