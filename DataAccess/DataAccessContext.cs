@@ -16,6 +16,7 @@ namespace api_stock.DataAccess
         public DbSet<ProductoModel> tbl_producto { get; set; }
 
         public DbSet<EstadoModel> tbl_estado { get; set; }
+        public DbSet<TipoProductoModel> tbl_tipo_producto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder){
             base.OnModelCreating(builder);

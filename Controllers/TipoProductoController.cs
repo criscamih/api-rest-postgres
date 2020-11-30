@@ -13,27 +13,25 @@ namespace api_stock.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmpleadoController : ControllerBase{
-
-        private readonly IDataAccessRepository<EmpleadoModel> _dataAccessEmpleado;
-         public EmpleadoController(IDataAccessRepository<EmpleadoModel> dataAccessEmpleado)
+    public class TipoProductoController : ControllerBase{
+         private readonly IDataAccessRepository<TipoProductoModel> _dataAccessTP;
+         public TipoProductoController(IDataAccessRepository<TipoProductoModel> dataAccessTP)
          {
-             _dataAccessEmpleado = dataAccessEmpleado;
+             _dataAccessTP = dataAccessTP;
          }
-
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<EmpleadoModel>>> GetAllEmpleados()
+        public async Task<ActionResult<IEnumerable<AreaModel>>> GetAllTipos()
         {
-            var empleados = await _dataAccessEmpleado.GetAll() ?? null;
+            var tipos = await _dataAccessTP.GetAll() ?? null;
 
-            if (empleados is null)
+            if (tipos is null)
             {
                 return NotFound();
             }
 
-            return Ok(empleados);
+            return Ok(tipos);
         }
     }
 }

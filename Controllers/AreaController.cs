@@ -5,22 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using  api_stock.Models;
-using api_stock.Providers.Interfaces;
 using System.Text;
+using api_stock.common.interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace api_stock.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class AreaController : ControllerBase{
-         private readonly IDataAccessArea _dataAccessArea;
-         public AreaController(IDataAccessArea dataAccessArea)
+         private readonly IDataAccessRepository<AreaModel> _dataAccessArea;
+         public AreaController(IDataAccessRepository<AreaModel> dataAccessArea)
          {
              _dataAccessArea = dataAccessArea;
          }
         [HttpGet]
-        public IEnumerable<AreaModel> GetAllAreas(){
-            return _dataAccessArea.GetAllAreas();
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<AreaModel>>> GetAllAreas()
+        {
+            var areas = await _dataAccessArea.GetAll() ?? null;
+
+            if (areas is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(areas);
         }
     }
 }

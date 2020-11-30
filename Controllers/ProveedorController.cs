@@ -13,45 +13,45 @@ namespace api_stock.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductoController : ControllerBase{
-        private readonly IDataAccessRepository<ProductoModel> _dataAccessProducto;
-         public ProductoController(IDataAccessRepository<ProductoModel>  dataAccessProducto)
+    public class ProveedorController : ControllerBase{
+        private readonly IDataAccessRepository<ProveedorModel> _dataAccessproveedor;
+         public ProveedorController(IDataAccessRepository<ProveedorModel>  dataAccessproveedor)
          {
-             _dataAccessProducto = dataAccessProducto;
+             _dataAccessproveedor = dataAccessproveedor;
          }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<ProductoModel>>> GetAllProductos() {
+        public async Task<ActionResult<IEnumerable<ProveedorModel>>> GetAllproveedors() {
 
-            var productos = await _dataAccessProducto.GetAll() ?? null;
+            var proveedores = await _dataAccessproveedor.GetAll() ?? null;
 
-            if (productos is null)
+            if (proveedores is null)
             {
                 return NotFound();
             }
 
-            return Ok(productos);
+            return Ok(proveedores);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ProductoModel>> GetProductoById(int id)
+        public async Task<ActionResult<ProveedorModel>> GetproveedorById(int id)
         {
-            var producto = await _dataAccessProducto.GetOne(id) ?? null;
-            if (producto is null) 
+            var proveedor = await _dataAccessproveedor.GetOne(id) ?? null;
+            if (proveedor is null) 
             {
                 return NotFound();
             }
-            return Ok(producto);
+            return Ok(proveedor);
 
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Create([FromBody] ProductoModel producto)
+        public async Task<IActionResult> Create([FromBody] ProveedorModel proveedor)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace api_stock.Controllers
             }
             try{
     
-                await _dataAccessProducto.Add(producto);
+                await _dataAccessproveedor.Add(proveedor);
                 return Ok();
 
             }
@@ -73,15 +73,15 @@ namespace api_stock.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Edit(int id, ProductoModel producto)
+        public async Task<IActionResult> Edit(int id, ProveedorModel proveedor)
         {
-            if (id != producto.id_producto)
+            if (id != proveedor.id_proveedor)
             {
                 return BadRequest("El objeto no es válido");
             }
             try
             {
-                await _dataAccessProducto.Update(producto);
+                await _dataAccessproveedor.Update(proveedor);
                 return Ok();
             }
             catch (Exception e)
@@ -97,7 +97,7 @@ namespace api_stock.Controllers
         public async Task<IActionResult> Delete(int id){
             try
             {
-                await _dataAccessProducto.Delete(id);
+                await _dataAccessproveedor.Delete(id);
                 return Ok();
                 
             }

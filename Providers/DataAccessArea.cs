@@ -1,28 +1,43 @@
 using api_stock.Models;
 using System.Collections.Generic;
 using System.Linq;
-using api_stock.Providers.Interfaces;
 using api_stock.DataAccess;
-using api_stock.enums;
 using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using api_stock.common.interfaces;
 
 namespace api_stock.Providers{
-    public class DataAccessArea : IDataAccessArea
+    public class DataAccessArea : IDataAccessRepository<AreaModel>
     {
         private readonly DataAccessContext _context;
         public DataAccessArea(DataAccessContext context)
         {
             _context = context;
         }
-        public IEnumerable<AreaModel> GetAllAreas()
+
+        public override async Task<IEnumerable<AreaModel>> GetAll()=>
+            await (from areas in _context.tbl_area
+                   select areas).ToListAsync();
+
+        public override Task Add(AreaModel TEntity)
         {
-            return from ar in _context.tbl_area
-                   select new AreaModel
-                   {
-                       id_area = ar.id_area,
-                       nombre = ar.nombre,
-                       descripcion = ar.descripcion
-                   };
+            throw new NotImplementedException();
+        }
+
+        public override Task Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<AreaModel> GetOne(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task Update(AreaModel TEntity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
