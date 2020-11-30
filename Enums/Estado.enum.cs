@@ -12,9 +12,7 @@
     }
 
         public enum Modena{
-        Pesos = 1,
-        Dollar = 2,
-        Euro = 3
+        Pesos = 1
     }
  }
  
