@@ -10,5 +10,11 @@
         miscelaneo = 2,
         inmueble = 3
     }
+
+        public enum Modena{
+        Pesos = 1,
+        Dollar = 2,
+        Euro = 3
+    }
  }
  
